@@ -1,0 +1,3425 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUTOMATA LAB — Interactive Simulator for Formal Language and Automata</title>
+  <style>
+    /* ==========================================================================
+       THEME & REFINED PASTEL DESIGN SYSTEM
+       ========================================================================== */
+    :root {
+      /* Dark Theme (Default) - Sophisticated Deep Slate & Soft Pastels */
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #192339;
+      --bg-card-hover: #22304d;
+      --bg-surface: #131d33;
+      --bg-input: #0e1627;
+      --bg-glass: rgba(15, 23, 42, 0.9);
+      
+      --border-color: #334155;
+      --border-subtle: #1e293b;
+      --border-focus: #38bdf8;
+      
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      /* Refined Pastel Tones (Dark Mode) */
+      --pastel-sky: #7dd3fc;
+      --pastel-sky-bg: rgba(125, 211, 252, 0.12);
+      --pastel-sky-border: rgba(125, 211, 252, 0.3);
+
+      --pastel-mint: #6ee7b7;
+      --pastel-mint-bg: rgba(110, 231, 183, 0.12);
+      --pastel-mint-border: rgba(110, 231, 183, 0.3);
+
+      --pastel-lavender: #c4b5fd;
+      --pastel-lavender-bg: rgba(196, 181, 253, 0.12);
+      --pastel-lavender-border: rgba(196, 181, 253, 0.3);
+
+      --pastel-peach: #fcd34d;
+      --pastel-peach-bg: rgba(252, 211, 77, 0.12);
+      --pastel-peach-border: rgba(252, 211, 77, 0.3);
+
+      --pastel-coral: #fca5a5;
+      --pastel-coral-bg: rgba(252, 165, 165, 0.12);
+      --pastel-coral-border: rgba(252, 165, 165, 0.3);
+
+      --pastel-teal: #2dd4bf;
+      --pastel-teal-bg: rgba(45, 212, 191, 0.12);
+      --pastel-teal-border: rgba(45, 212, 191, 0.3);
+
+      --pastel-rose: #f472b6;
+      --pastel-rose-bg: rgba(244, 114, 182, 0.12);
+      --pastel-rose-border: rgba(244, 114, 182, 0.3);
+
+      --pastel-indigo: #818cf8;
+      --pastel-indigo-bg: rgba(129, 140, 248, 0.12);
+      --pastel-indigo-border: rgba(129, 140, 248, 0.3);
+
+      /* Symbol Palette */
+      --sym-a-text: #fcd34d;
+      --sym-a-bg: rgba(252, 211, 77, 0.14);
+      --sym-a-border: rgba(252, 211, 77, 0.35);
+
+      --sym-b-text: #7dd3fc;
+      --sym-b-bg: rgba(125, 211, 252, 0.14);
+      --sym-b-border: rgba(125, 211, 252, 0.35);
+
+      --sym-c-text: #c4b5fd;
+      --sym-c-bg: rgba(196, 181, 253, 0.14);
+      --sym-c-border: rgba(196, 181, 253, 0.35);
+
+      --sym-d-text: #6ee7b7;
+      --sym-d-bg: rgba(110, 231, 183, 0.14);
+      --sym-d-border: rgba(110, 231, 183, 0.35);
+
+      --sym-0-text: #7dd3fc;
+      --sym-0-bg: rgba(125, 211, 252, 0.14);
+      --sym-0-border: rgba(125, 211, 252, 0.35);
+
+      --sym-1-text: #fca5a5;
+      --sym-1-bg: rgba(252, 165, 165, 0.14);
+      --sym-1-border: rgba(252, 165, 165, 0.35);
+
+      /* Diagram node styling */
+      --node-fill: #192339;
+      --node-stroke: #7dd3fc;
+      --node-active-fill: rgba(125, 211, 252, 0.22);
+      --node-active-stroke: #38bdf8;
+      --node-text: #f8fafc;
+      --node-accept-stroke: #6ee7b7;
+      --edge-stroke: #64748b;
+      --edge-active-stroke: #7dd3fc;
+      --edge-mask-stroke: #0f172a;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.3);
+      --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.4);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+      --transition: all 0.2s ease-out;
+    }
+
+    [data-theme="light"] {
+      /* Light Theme - Clean Academic Slate & Gentle Pastels */
+      --bg-primary: #f8fafc;
+      --bg-secondary: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #ffffff;
+      --bg-surface: #f1f5f9;
+      --bg-input: #ffffff;
+      --bg-glass: rgba(255, 255, 255, 0.94);
+
+      --border-color: #cbd5e1;
+      --border-subtle: #e2e8f0;
+      --border-focus: #0284c7;
+
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+
+      /* Refined Pastel Tones (Light Mode) */
+      --pastel-sky: #0369a1;
+      --pastel-sky-bg: #e0f2fe;
+      --pastel-sky-border: #bae6fd;
+
+      --pastel-mint: #047857;
+      --pastel-mint-bg: #d1fae5;
+      --pastel-mint-border: #a7f3d0;
+
+      --pastel-lavender: #6d28d9;
+      --pastel-lavender-bg: #ede9fe;
+      --pastel-lavender-border: #ddd6fe;
+
+      --pastel-peach: #b45309;
+      --pastel-peach-bg: #fef3c7;
+      --pastel-peach-border: #fde68a;
+
+      --pastel-coral: #b91c1c;
+      --pastel-coral-bg: #fee2e2;
+      --pastel-coral-border: #fecaca;
+
+      --pastel-teal: #0f766e;
+      --pastel-teal-bg: #ccfbf1;
+      --pastel-teal-border: #99f6e4;
+
+      --pastel-rose: #be185d;
+      --pastel-rose-bg: #fce7f3;
+      --pastel-rose-border: #fbcfe8;
+
+      --pastel-indigo: #4338ca;
+      --pastel-indigo-bg: #e0e7ff;
+      --pastel-indigo-border: #c7d2fe;
+
+      /* Symbol Palette */
+      --sym-a-text: #b45309;
+      --sym-a-bg: #fef3c7;
+      --sym-a-border: #fde68a;
+
+      --sym-b-text: #0369a1;
+      --sym-b-bg: #e0f2fe;
+      --sym-b-border: #bae6fd;
+
+      --sym-c-text: #6d28d9;
+      --sym-c-bg: #ede9fe;
+      --sym-c-border: #ddd6fe;
+
+      --sym-d-text: #047857;
+      --sym-d-bg: #d1fae5;
+      --sym-d-border: #a7f3d0;
+
+      --sym-0-text: #0369a1;
+      --sym-0-bg: #e0f2fe;
+      --sym-0-border: #bae6fd;
+
+      --sym-1-text: #be123c;
+      --sym-1-bg: #ffe4e6;
+      --sym-1-border: #fecdd3;
+
+      /* Diagram node styling */
+      --node-fill: #ffffff;
+      --node-stroke: #0284c7;
+      --node-active-fill: #e0f2fe;
+      --node-active-stroke: #0369a1;
+      --node-text: #0f172a;
+      --node-accept-stroke: #059669;
+      --edge-stroke: #64748b;
+      --edge-active-stroke: #0284c7;
+      --edge-mask-stroke: #ffffff;
+
+      --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.05);
+      --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      line-height: 1.6;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .brand:hover .brand-icon {
+      border-color: var(--pastel-sky);
+      box-shadow: 0 0 12px var(--pastel-sky-border);
+      transform: translateY(-1px);
+    }
+
+    .brand-icon svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .brand:hover .brand-icon svg {
+      transform: scale(1.05);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--text-main);
+    }
+
+    .brand-subtitle {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--bg-secondary);
+      padding: 0.25rem 0.35rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-color);
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-main);
+      background: var(--bg-card);
+    }
+
+    .nav-btn.active {
+      color: var(--pastel-sky);
+      background: var(--pastel-sky-bg);
+      border: 1px solid var(--pastel-sky-border);
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .theme-toggle-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--border-focus);
+      color: var(--pastel-sky);
+      transform: scale(1.05);
+    }
+
+    /* ==========================================================================
+       MAIN CONTAINER & VIEWS
+       ========================================================================== */
+    main {
+      flex: 1;
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3.5rem;
+    }
+
+    .view-section {
+      display: none;
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card & Panel styles */
+    .glass-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .glass-card:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+      color: var(--text-main);
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+
+    .badge-sky { color: var(--pastel-sky); background: var(--pastel-sky-bg); border-color: var(--pastel-sky-border); }
+    .badge-mint { color: var(--pastel-mint); background: var(--pastel-mint-bg); border-color: var(--pastel-mint-border); }
+    .badge-lavender { color: var(--pastel-lavender); background: var(--pastel-lavender-bg); border-color: var(--pastel-lavender-border); }
+    .badge-peach { color: var(--pastel-peach); background: var(--pastel-peach-bg); border-color: var(--pastel-peach-border); }
+    .badge-coral { color: var(--pastel-coral); background: var(--pastel-coral-bg); border-color: var(--pastel-coral-border); }
+    .badge-teal { color: var(--pastel-teal); background: var(--pastel-teal-bg); border-color: var(--pastel-teal-border); }
+    .badge-rose { color: var(--pastel-rose); background: var(--pastel-rose-bg); border-color: var(--pastel-rose-border); }
+    .badge-indigo { color: var(--pastel-indigo); background: var(--pastel-indigo-bg); border-color: var(--pastel-indigo-border); }
+
+    /* Button styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.55rem 1.15rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--pastel-sky-bg);
+      border-color: var(--pastel-sky-border);
+      color: var(--pastel-sky);
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      background: var(--pastel-sky);
+      color: #0f172a;
+      border-color: var(--pastel-sky);
+    }
+
+    .btn-outline {
+      background: var(--bg-card);
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+    .btn-outline:hover {
+      border-color: var(--pastel-sky-border);
+      color: var(--pastel-sky);
+      background: var(--bg-secondary);
+    }
+
+    .btn-sm {
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .math-display {
+      font-family: var(--font-mono);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.6rem 1rem;
+      display: inline-block;
+      color: var(--pastel-sky);
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       HOME VIEW
+       ========================================================================== */
+    .hero-banner {
+      text-align: center;
+      padding: 2.5rem 1rem 3.5rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--pastel-sky-bg);
+      border: 1px solid var(--pastel-sky-border);
+      color: var(--pastel-sky);
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      color: var(--text-main);
+    }
+
+    .hero-title-accent {
+      color: var(--pastel-sky);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .experiments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .experiment-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+      transition: var(--transition);
+    }
+
+    .experiment-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border-focus);
+    }
+
+    .card-art {
+      height: 170px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .card-art svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-body {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-main);
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    .card-target-lang {
+      font-family: var(--font-mono);
+      background: var(--bg-secondary);
+      padding: 0.5rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--pastel-sky);
+      font-size: 0.88rem;
+      color: var(--pastel-sky);
+      margin-bottom: 1.5rem;
+    }
+
+    .overview-strip {
+      margin-top: 3.5rem;
+      padding: 1.75rem;
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.75rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .overview-item {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .overview-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .overview-text h4 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+
+    .overview-text p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       SIMULATOR 1: PUMPING LEMMA MACHINE
+       ========================================================================== */
+    .spec-banner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+    }
+
+    .rules-list {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      list-style: none;
+    }
+
+    .rules-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .rules-list li svg {
+      color: var(--pastel-mint);
+      flex-shrink: 0;
+    }
+
+    .machine-rig {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-top: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .rig-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .rig-title {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--pastel-sky);
+    }
+
+    .rig-controls-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .control-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    input[type="range"] {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--border-color);
+      height: 6px;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--pastel-sky);
+      border: 2px solid var(--bg-card);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .val-display {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      color: var(--pastel-sky);
+      font-size: 1.05rem;
+      min-width: 22px;
+      text-align: center;
+    }
+
+    .conveyor-stage {
+      margin: 1.5rem 0;
+    }
+
+    .tape-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .string-tape {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--bg-surface);
+      padding: 0.85rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      min-height: 75px;
+    }
+
+    .char-tile {
+      width: 38px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.05rem;
+      flex-shrink: 0;
+      position: relative;
+      border: 1px solid transparent;
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .char-tile .tile-sub {
+      font-size: 0.6rem;
+      font-weight: 600;
+      opacity: 0.75;
+      text-transform: uppercase;
+    }
+
+    .char-a { background: var(--sym-a-bg); color: var(--sym-a-text); border-color: var(--sym-a-border); }
+    .char-b { background: var(--sym-b-bg); color: var(--sym-b-text); border-color: var(--sym-b-border); }
+    .char-c { background: var(--sym-c-bg); color: var(--sym-c-text); border-color: var(--sym-c-border); }
+    .char-d { background: var(--sym-d-bg); color: var(--sym-d-text); border-color: var(--sym-d-border); }
+
+    .char-tile.seg-u { border-top: 3px solid var(--text-dim); }
+    .char-tile.seg-v { border-top: 3px solid var(--pastel-coral); transform: translateY(-2px); }
+    .char-tile.seg-x { border-top: 3px solid var(--pastel-sky); }
+    .char-tile.seg-y { border-top: 3px solid var(--pastel-lavender); transform: translateY(-2px); }
+    .char-tile.seg-z { border-top: 3px solid var(--text-dim); }
+
+    .tile-tag {
+      position: absolute;
+      top: -16px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .tile-tag-v { background: var(--pastel-coral); color: #fff; }
+    .tile-tag-y { background: var(--pastel-lavender); color: #fff; }
+
+    .decomposition-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .decomp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .preset-selector-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .decomp-preset-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 0.4rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .decomp-preset-btn:hover {
+      color: var(--text-main);
+      border-color: var(--pastel-sky-border);
+    }
+
+    .decomp-preset-btn.active {
+      background: var(--pastel-sky-bg);
+      border-color: var(--pastel-sky-border);
+      color: var(--pastel-sky);
+      font-weight: 700;
+    }
+
+    .decomp-condition-badges {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .condition-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      font-weight: 600;
+    }
+    .condition-pill.valid { background: var(--pastel-mint-bg); border-color: var(--pastel-mint-border); color: var(--pastel-mint); }
+    .condition-pill.invalid { background: var(--pastel-coral-bg); border-color: var(--pastel-coral-border); color: var(--pastel-coral); }
+
+    .pumping-chamber {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .chamber-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .pump-buttons-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .pump-i-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .pump-i-btn:hover {
+      border-color: var(--pastel-sky-border);
+      color: var(--pastel-sky);
+    }
+
+    .pump-i-btn.active {
+      background: var(--pastel-sky);
+      color: #0f172a;
+      border-color: var(--pastel-sky);
+    }
+
+    .diagnosis-card {
+      margin-top: 1.5rem;
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      border: 1px solid;
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .diagnosis-card.rejected {
+      background: var(--pastel-coral-bg);
+      border-color: var(--pastel-coral-border);
+    }
+
+    .diagnosis-card.accepted {
+      background: var(--pastel-mint-bg);
+      border-color: var(--pastel-mint-border);
+    }
+
+    .diagnosis-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.35rem;
+      font-weight: bold;
+    }
+    .diagnosis-card.rejected .diagnosis-icon {
+      background: var(--bg-card);
+      color: var(--pastel-coral);
+      border: 1px solid var(--pastel-coral-border);
+    }
+    .diagnosis-card.accepted .diagnosis-icon {
+      background: var(--bg-card);
+      color: var(--pastel-mint);
+      border: 1px solid var(--pastel-mint-border);
+    }
+
+    .diagnosis-body h4 {
+      font-size: 1.05rem;
+      margin-bottom: 0.2rem;
+    }
+    .diagnosis-card.rejected h4 { color: var(--pastel-coral); }
+    .diagnosis-card.accepted h4 { color: var(--pastel-mint); }
+
+    .diagnosis-body p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .counts-summary {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+    }
+    .count-chip {
+      background: var(--bg-card);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .collapsible-theory {
+      margin-top: 2rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--bg-card);
+      box-shadow: var(--shadow-card);
+    }
+
+    .collapsible-trigger {
+      width: 100%;
+      background: var(--bg-surface);
+      border: none;
+      color: var(--text-main);
+      padding: 1.1rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .collapsible-trigger:hover {
+      background: var(--bg-secondary);
+    }
+
+    .collapsible-content {
+      padding: 1.5rem;
+      display: none;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .collapsible-content.open {
+      display: block;
+    }
+
+    .proof-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 1rem 0;
+    }
+
+    .proof-step {
+      display: flex;
+      gap: 1rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+    }
+
+    .step-number {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--pastel-sky-bg);
+      border: 1px solid var(--pastel-sky-border);
+      color: var(--pastel-sky);
+      font-weight: 700;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .solver-table-wrap {
+      margin-top: 1.25rem;
+      overflow-x: auto;
+      max-height: 280px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+    }
+
+    .solver-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      font-family: var(--font-mono);
+      text-align: left;
+    }
+
+    .solver-table th, .solver-table td {
+      padding: 0.6rem 0.85rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .solver-table th {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .solver-table tr:hover td {
+      background: var(--bg-surface);
+    }
+
+    /* ==========================================================================
+       SIMULATOR 2: PUSHDOWN AUTOMATON (PDA)
+       ========================================================================== */
+    .pda-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 1024px) {
+      .pda-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .diagram-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+    }
+
+    .diagram-header {
+      padding: 0.85rem 1.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-surface);
+    }
+
+    .diagram-svg-wrap {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: var(--bg-card);
+    }
+
+    .diagram-svg-wrap svg {
+      width: 100%;
+      max-height: 310px;
+    }
+
+    .pda-node circle {
+      fill: var(--node-fill);
+      stroke: var(--node-stroke);
+      stroke-width: 2.5;
+      transition: var(--transition);
+    }
+    .pda-node.active circle {
+      fill: var(--node-active-fill);
+      stroke: var(--node-active-stroke);
+      stroke-width: 3.5;
+    }
+    .pda-node.accept circle.outer-ring {
+      fill: none;
+      stroke: var(--node-accept-stroke);
+      stroke-width: 2.2;
+    }
+    .pda-node.active.accept circle {
+      fill: var(--pastel-mint-bg);
+      stroke: var(--pastel-mint);
+    }
+
+    .pda-node text {
+      fill: var(--node-text);
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 15px;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    .pda-edge {
+      fill: none;
+      stroke: var(--edge-stroke);
+      stroke-width: 2;
+      transition: var(--transition);
+    }
+    .pda-edge.active {
+      stroke: var(--edge-active-stroke);
+      stroke-width: 3.5;
+      stroke-dasharray: 6 3;
+      animation: dashMove 0.8s linear infinite;
+    }
+    @keyframes dashMove {
+      from { stroke-dashoffset: 18; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .pda-edge-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      fill: var(--text-muted);
+      font-weight: 600;
+      text-anchor: middle;
+      paint-order: stroke;
+      stroke: var(--edge-mask-stroke);
+      stroke-width: 4px;
+      stroke-linecap: butt;
+      stroke-linejoin: miter;
+    }
+    .pda-edge-label.active {
+      fill: var(--pastel-sky);
+      font-weight: 800;
+    }
+
+    .stack-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+    }
+
+    .stack-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .stack-body {
+      display: flex;
+      gap: 1.25rem;
+      flex: 1;
+      align-items: flex-end;
+      min-height: 270px;
+    }
+
+    .stack-column {
+      width: 110px;
+      height: 250px;
+      background: var(--bg-surface);
+      border-left: 2px solid var(--border-color);
+      border-right: 2px solid var(--border-color);
+      border-bottom: 4px solid var(--pastel-sky);
+      border-radius: 0 0 6px 6px;
+      display: flex;
+      flex-direction: column-reverse;
+      padding: 6px;
+      gap: 4px;
+      overflow-y: hidden;
+    }
+
+    .stack-block {
+      width: 100%;
+      height: 30px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.9rem;
+      animation: stackSlideIn 0.2s ease-out;
+      flex-shrink: 0;
+      border: 1px solid;
+    }
+
+    @keyframes stackSlideIn {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .stack-block.block-z0 {
+      background: var(--pastel-peach-bg);
+      border-color: var(--pastel-peach-border);
+      color: var(--pastel-peach);
+    }
+
+    .stack-block.block-x {
+      background: var(--pastel-sky-bg);
+      border-color: var(--pastel-sky-border);
+      color: var(--pastel-sky);
+    }
+
+    .stack-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .stack-meta-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+    }
+
+    .stack-meta-title {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+      font-weight: 700;
+    }
+
+    .stack-meta-val {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--pastel-sky);
+      word-break: break-all;
+    }
+
+    .pda-controls-box {
+      grid-column: 1 / -1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .input-row-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-field-group {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .custom-input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.9rem;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      letter-spacing: 0.12em;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .custom-input:focus {
+      border-color: var(--border-focus);
+    }
+
+    .sim-action-btns {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .test-cases-rack {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .test-case-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .test-case-btn:hover {
+      color: var(--text-main);
+      border-color: var(--pastel-sky-border);
+    }
+
+    .test-case-btn.active {
+      background: var(--pastel-sky-bg);
+      border-color: var(--pastel-sky-border);
+      color: var(--pastel-sky);
+      font-weight: 700;
+    }
+
+    .pda-tape-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      align-items: center;
+      min-height: 80px;
+    }
+
+    .pda-tile {
+      width: 42px;
+      height: 52px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 1.15rem;
+      border: 1px solid transparent;
+      position: relative;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .pda-tile .tile-idx {
+      font-size: 0.58rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    .pda-tile.char-0 { background: var(--sym-0-bg); color: var(--sym-0-text); border-color: var(--sym-0-border); }
+    .pda-tile.char-1 { background: var(--sym-1-bg); color: var(--sym-1-text); border-color: var(--sym-1-border); }
+
+    .pda-tile.consumed {
+      opacity: 0.35;
+      filter: grayscale(0.7);
+      transform: scale(0.94);
+    }
+
+    .pda-tile.current {
+      border: 2px solid var(--pastel-sky);
+      transform: translateY(-3px) scale(1.05);
+      z-index: 2;
+    }
+
+    .pda-tile.current::after {
+      content: '▲ READ';
+      position: absolute;
+      bottom: -16px;
+      font-size: 0.58rem;
+      font-weight: 800;
+      color: var(--pastel-sky);
+      white-space: nowrap;
+    }
+
+    .trace-card {
+      grid-column: 1 / -1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .trace-table-wrap {
+      overflow-x: auto;
+      max-height: 360px;
+      margin-top: 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+    }
+
+    .trace-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.86rem;
+      text-align: left;
+    }
+
+    .trace-table th {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .trace-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .trace-table tr.active-row td {
+      background: var(--pastel-sky-bg);
+      color: var(--text-main);
+      font-weight: 700;
+      border-top: 1px solid var(--pastel-sky-border);
+      border-bottom: 1px solid var(--pastel-sky-border);
+    }
+
+    .trace-table tr.active-row td:first-child::before {
+      content: '▶ ';
+      color: var(--pastel-sky);
+    }
+
+    .pda-status-box {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid;
+    }
+
+    .pda-status-box.neutral { background: var(--bg-surface); border-color: var(--border-color); color: var(--text-muted); }
+    .pda-status-box.accepted { background: var(--pastel-mint-bg); border-color: var(--pastel-mint-border); color: var(--pastel-mint); }
+    .pda-status-box.rejected { background: var(--pastel-coral-bg); border-color: var(--pastel-coral-border); color: var(--pastel-coral); }
+
+    /* ==========================================================================
+       THEORY & CONCEPTS VIEW (BALANCED UPPER ROW - NO VIVA)
+       ========================================================================== */
+    .theory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      .theory-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .theory-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.6rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .theory-card h3 {
+      font-size: 1.18rem;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chomsky-hierarchy-box {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin: 1rem 0;
+    }
+
+    .chomsky-level {
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-sm);
+      border-left: 4px solid;
+      background: var(--bg-surface);
+      font-size: 0.86rem;
+    }
+
+    .chomsky-3 { border-color: var(--pastel-mint); }
+    .chomsky-2 { border-color: var(--pastel-sky); }
+    .chomsky-1 { border-color: var(--pastel-lavender); }
+    .chomsky-0 { border-color: var(--pastel-coral); }
+
+    /* ==========================================================================
+       FOOTER & COMPACT AUTHORS BAR
+       ========================================================================== */
+    footer {
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      padding: 1.25rem 1.5rem;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      text-align: center;
+    }
+
+    .footer-heading {
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-main);
+    }
+
+    .authors-compact-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.6rem 0.85rem;
+      font-size: 0.82rem;
+    }
+
+    .author-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--bg-surface);
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .author-name {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .author-id {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--pastel-sky);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.25rem;
+      list-style: none;
+      margin-top: 0.2rem;
+    }
+
+    .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--pastel-sky);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+      }
+      nav {
+        width: 100%;
+        justify-content: center;
+      }
+      .nav-btn {
+        padding: 0.35rem 0.65rem;
+        font-size: 0.78rem;
+      }
+      .hero-title {
+        font-size: 2.1rem;
+      }
+      .machine-rig {
+        padding: 1.25rem;
+      }
+      .stack-body {
+        flex-direction: column;
+        align-items: center;
+      }
+      .stack-column {
+        width: 100%;
+        height: 190px;
+      }
+      .authors-compact-bar {
+        flex-direction: column;
+        width: 100%;
+      }
+      .author-tag {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== -->
+  <header>
+    <div class="brand" onclick="switchTab('home')">
+      <div class="brand-icon">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Automata State Network Logo">
+          <!-- Transition Arrow 1: Bottom-Left (q0) to Top-Center (q1) -->
+          <path d="M 10 20.5 L 13.8 13.5" stroke="var(--pastel-sky)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M 14.6 12.2 L 12 14.8 M 14.6 12.2 L 14.6 15.8" stroke="var(--pastel-sky)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Transition Arrow 2: Top-Center (q1) to Bottom-Right (q2) -->
+          <path d="M 18.2 13.5 L 22 20.5" stroke="var(--pastel-lavender)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M 22.8 21.8 L 22.8 18.2 M 22.8 21.8 L 20.2 19.2" stroke="var(--pastel-lavender)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- Transition Arrow 3: Bottom-Right (q2) to Bottom-Left (q0) -->
+          <path d="M 20 23.5 L 12.8 23.5" stroke="var(--pastel-lavender)" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M 11.5 23.5 L 14.5 21 M 11.5 23.5 L 14.5 26" stroke="var(--pastel-lavender)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+          <!-- State q0 (Bottom-Left) -->
+          <circle cx="7.5" cy="23.5" r="4.2" fill="var(--bg-card)" stroke="var(--pastel-lavender)" stroke-width="1.8"/>
+
+          <!-- State q2 (Bottom-Right) -->
+          <circle cx="24.5" cy="23.5" r="4.2" fill="var(--bg-card)" stroke="var(--pastel-lavender)" stroke-width="1.8"/>
+
+          <!-- State q1 (Top-Center: Active Computation Node with glowing core) -->
+          <circle cx="16" cy="8" r="4.8" fill="var(--pastel-sky-bg)" stroke="var(--pastel-sky)" stroke-width="2"/>
+          <circle cx="16" cy="8" r="2.2" fill="var(--pastel-sky)"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">AUTOMATA LAB</span>
+        <span class="brand-subtitle">Interactive Simulator for Formal Language and Automata</span>
+      </div>
+    </div>
+
+    <nav>
+      <button class="nav-btn active" id="tab-btn-home" onclick="switchTab('home')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </button>
+      <button class="nav-btn" id="tab-btn-pumping" onclick="switchTab('pumping')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+        Pumping Lemma
+      </button>
+      <button class="nav-btn" id="tab-btn-pda" onclick="switchTab('pda')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        PDA Simulator
+      </button>
+      <button class="nav-btn" id="tab-btn-theory" onclick="switchTab('theory')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Theory &amp; Concepts
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <button class="theme-toggle-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme (Dark/Light)">
+        <svg id="theme-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN CONTENT
+       ========================================================================== -->
+  <main>
+
+    <!-- VIEW 1: HOME -->
+    <section id="view-home" class="view-section active">
+      <div class="hero-banner">
+        <div class="hero-badge">
+          Formal Language &amp; Automata
+        </div>
+        <h1 class="hero-title">
+          Explore. Simulate. <span class="hero-title-accent">Prove.</span>
+        </h1>
+        <p class="hero-subtitle">
+          An interactive simulator for formal language and automata. Analyze the non-context-freeness of {aⁿbⁿcⁿdⁿ} via the Pumping Lemma and track live Pushdown Automaton execution on {0ⁿ1ⁿ}.
+        </p>
+      </div>
+
+      <div class="experiments-grid">
+        <!-- Card 1: Pumping Lemma -->
+        <div class="experiment-card" style="border-top: 3px solid var(--pastel-indigo);">
+          <div class="card-art">
+            <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="35" width="340" height="80" rx="8" fill="var(--bg-card)" stroke="var(--border-color)" stroke-width="1.5"/>
+              <rect x="45" y="52" width="60" height="46" rx="5" fill="var(--sym-a-bg)" stroke="var(--sym-a-border)"/>
+              <text x="75" y="80" fill="var(--sym-a-text)" font-family="monospace" font-weight="bold" font-size="16" text-anchor="middle">aⁿ</text>
+              <rect x="115" y="52" width="60" height="46" rx="5" fill="var(--sym-b-bg)" stroke="var(--sym-b-border)"/>
+              <text x="145" y="80" fill="var(--sym-b-text)" font-family="monospace" font-weight="bold" font-size="16" text-anchor="middle">bⁿ</text>
+              <rect x="185" y="52" width="60" height="46" rx="5" fill="var(--sym-c-bg)" stroke="var(--sym-c-border)"/>
+              <text x="215" y="80" fill="var(--sym-c-text)" font-family="monospace" font-weight="bold" font-size="16" text-anchor="middle">cⁿ</text>
+              <rect x="255" y="52" width="60" height="46" rx="5" fill="var(--sym-d-bg)" stroke="var(--sym-d-border)"/>
+              <text x="285" y="80" fill="var(--sym-d-text)" font-family="monospace" font-weight="bold" font-size="16" text-anchor="middle">dⁿ</text>
+              <!-- Window bracket -->
+              <rect x="105" y="45" width="90" height="60" rx="6" fill="none" stroke="var(--pastel-coral)" stroke-width="2" stroke-dasharray="4 2"/>
+              <text x="150" y="22" fill="var(--pastel-coral)" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">|vxy| ≤ p</text>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-peach">Problem 01</span>
+              <span class="badge badge-indigo">CFL Non-Membership</span>
+            </div>
+            <h3 class="card-title">The Pumping Lemma Machine</h3>
+            <p class="card-desc">
+              Demonstrate that <strong>L = {aⁿbⁿcⁿdⁿ | n ≥ 1}</strong> is not context-free. Select decomposition windows <em>uvxyz</em>, test pumping factors <em>i=0</em> and <em>i=2</em>, and inspect the resulting contradiction.
+            </p>
+            <div class="card-target-lang">
+              L = { aⁿ bⁿ cⁿ dⁿ | n ≥ 1 } ∉ CFL
+            </div>
+            <button class="btn btn-primary" onclick="switchTab('pumping')">
+              Launch Pumping Lemma Simulator
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2: PDA Simulator -->
+        <div class="experiment-card" style="border-top: 3px solid var(--pastel-teal);">
+          <div class="card-art">
+            <svg viewBox="0 0 380 150" xmlns="http://www.w3.org/2000/svg">
+              <!-- States -->
+              <circle cx="65" cy="75" r="26" fill="var(--node-fill)" stroke="var(--pastel-sky)" stroke-width="2.5"/>
+              <text x="65" y="75" fill="var(--node-text)" font-family="monospace" font-weight="bold" font-size="13" text-anchor="middle" dominant-baseline="central">q₀</text>
+              <line x1="20" y1="75" x2="38" y2="75" stroke="var(--pastel-sky)" stroke-width="2"/>
+
+              <circle cx="190" cy="75" r="26" fill="var(--node-fill)" stroke="var(--pastel-sky)" stroke-width="2.5"/>
+              <text x="190" y="75" fill="var(--node-text)" font-family="monospace" font-weight="bold" font-size="13" text-anchor="middle" dominant-baseline="central">q₁</text>
+
+              <!-- Final State -->
+              <circle cx="315" cy="75" r="26" fill="var(--node-fill)" stroke="var(--pastel-mint)" stroke-width="2.5"/>
+              <circle cx="315" cy="75" r="20" fill="none" stroke="var(--pastel-mint)" stroke-width="1.8"/>
+              <text x="315" y="75" fill="var(--pastel-mint)" font-family="monospace" font-weight="bold" font-size="13" text-anchor="middle" dominant-baseline="central">q_f</text>
+
+              <!-- Edges -->
+              <path d="M 92 75 L 163 75" stroke="var(--edge-stroke)" stroke-width="2"/>
+              <path d="M 217 75 L 288 75" stroke="var(--edge-stroke)" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="badge badge-sky">Problem 02</span>
+              <span class="badge badge-teal">Pushdown Automaton</span>
+            </div>
+            <h3 class="card-title">Pushdown Automaton (PDA)</h3>
+            <p class="card-desc">
+              Step through the exact execution of a PDA recognizing <strong>L = {0ⁿ1ⁿ | n ≥ 1}</strong>. Watch states transition, stack markers push and pop, and inspect the instantaneous description history.
+            </p>
+            <div class="card-target-lang">
+              L = { 0ⁿ 1ⁿ | n ≥ 1 } ∈ CFL (PDA)
+            </div>
+            <button class="btn btn-primary" onclick="switchTab('pda')">
+              Launch PDA Simulator
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overview Strip -->
+      <div class="overview-strip">
+        <div class="overview-item">
+          <div class="overview-icon" style="background:var(--pastel-sky-bg); border:1px solid var(--pastel-sky-border); color:var(--pastel-sky);">📐</div>
+          <div class="overview-text">
+            <h4>Mathematical Precision</h4>
+            <p>Formulated according to standard Sipser & Hopcroft TOC frameworks with full 7-tuple specs.</p>
+          </div>
+        </div>
+        <div class="overview-item">
+          <div class="overview-icon" style="background:var(--pastel-teal-bg); border:1px solid var(--pastel-teal-border); color:var(--pastel-teal);">⚙️</div>
+          <div class="overview-text">
+            <h4>Live Step Execution</h4>
+            <p>Step, play, pause, and inspect instant state transitions with physical stack visualizations.</p>
+          </div>
+        </div>
+        <div class="overview-item">
+          <div class="overview-icon" style="background:var(--pastel-indigo-bg); border:1px solid var(--pastel-indigo-border); color:var(--pastel-indigo);">📚</div>
+          <div class="overview-text">
+            <h4>Academic Rigor &amp; Formal Models</h4>
+            <p>Structured for formal academic evaluation, comprehensive grammar models, and verifiable traces.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: PUMPING LEMMA MACHINE -->
+    <section id="view-pumping" class="view-section">
+      <div class="section-header">
+        <div class="badge badge-peach" style="margin-bottom:0.75rem;">Problem 1</div>
+        <h2 class="section-title">Pumping Lemma Proof Visualizer</h2>
+        <p class="section-subtitle">
+          Proving that <span class="math-display">L = { aⁿ bⁿ cⁿ dⁿ | n ≥ 1 }</span> is not a Context-Free Language.
+        </p>
+      </div>
+
+      <!-- Spec Banner -->
+      <div class="spec-banner">
+        <div>
+          <h4 style="font-size: 1rem; margin-bottom: 0.25rem; color:var(--text-main);">Language Validity Constraints:</h4>
+          <ul class="rules-list">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Equal counts: N(a) = N(b) = N(c) = N(d)
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Strict order: a* followed by b*, then c*, then d*
+            </li>
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Non-empty blocks: n ≥ 1
+            </li>
+          </ul>
+        </div>
+        <div>
+          <span style="font-size:0.78rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">Benchmark:</span>
+          <div style="font-family:var(--font-mono); font-size:0.85rem; margin-top:3px;">
+            <span style="color:var(--pastel-mint); font-weight:600;">Valid:</span> abcd, aabbccdd<br>
+            <span style="color:var(--pastel-coral); font-weight:600;">Invalid:</span> aabbccd, aabbddcc
+          </div>
+        </div>
+      </div>
+
+      <!-- Machine Rig -->
+      <div class="machine-rig">
+        <div class="rig-header">
+          <div class="rig-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Decomposition &amp; Pumping Controls
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="resetPumpingExperiment()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            Reset
+          </button>
+        </div>
+
+        <div class="rig-controls-bar">
+          <div class="control-group">
+            <span class="control-label">Pumping Length (p):</span>
+            <div class="slider-container">
+              <input type="range" id="p-slider" min="2" max="5" value="3" oninput="onPChange(this.value)">
+              <span class="val-display" id="p-val-display">3</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">String s = aᵖ bᵖ cᵖ dᵖ:</span>
+            <span style="font-family:var(--font-mono); font-size:0.92rem; color:var(--pastel-sky); font-weight:700;" id="orig-str-display">
+              aaabbbcccddd (|s| = 12)
+            </span>
+          </div>
+
+          <button class="btn btn-primary btn-sm" onclick="runAutomatedProofDemo()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Inspect Proof Matrix
+          </button>
+        </div>
+
+        <!-- Conveyor Tape -->
+        <div class="conveyor-stage">
+          <div class="tape-label">
+            <span>Input Partition: s = u v x y z</span>
+            <span id="window-status" style="color:var(--pastel-sky);">Window |vxy| ≤ p satisfied</span>
+          </div>
+          <div class="string-tape" id="pumping-tape">
+            <!-- Tiles -->
+          </div>
+        </div>
+
+        <!-- Decomposition Selector -->
+        <div class="decomposition-panel">
+          <div class="decomp-header">
+            <div>
+              <h4 style="font-size: 0.92rem; font-weight:700; color:var(--pastel-sky);">
+                Decomposition Presets (|vxy| ≤ p, |vy| &gt; 0):
+              </h4>
+              <p style="font-size: 0.82rem; color:var(--text-muted);">
+                Select structural case or adjust sliders to verify any partition:
+              </p>
+            </div>
+            <div class="decomp-condition-badges">
+              <span class="condition-pill valid" id="cond-vxy">|vxy| ≤ 3: YES</span>
+              <span class="condition-pill valid" id="cond-vy">|vy| &gt; 0: YES</span>
+            </div>
+          </div>
+
+          <div class="preset-selector-row" id="case-presets-row">
+            <!-- Presets -->
+          </div>
+
+          <!-- Fine-tune Sliders -->
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border-subtle);">
+            <div>
+              <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">v Start Index:</span>
+              <input type="range" id="v-start-slider" min="0" max="11" value="2" style="width:100%;" oninput="onCustomDecompChange()">
+            </div>
+            <div>
+              <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">v Length (|v|):</span>
+              <input type="range" id="v-len-slider" min="0" max="3" value="1" style="width:100%;" oninput="onCustomDecompChange()">
+            </div>
+            <div>
+              <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">x Length (|x|):</span>
+              <input type="range" id="x-len-slider" min="0" max="3" value="0" style="width:100%;" oninput="onCustomDecompChange()">
+            </div>
+            <div>
+              <span style="font-size:0.75rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">y Length (|y|):</span>
+              <input type="range" id="y-len-slider" min="0" max="3" value="1" style="width:100%;" oninput="onCustomDecompChange()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Pumping Chamber -->
+        <div class="pumping-chamber">
+          <div class="chamber-header">
+            <div>
+              <span class="badge badge-coral">Pumping Actuator</span>
+              <h3 style="font-size: 1.1rem; margin-top: 0.35rem; color:var(--text-main);">Evaluate Pumped String: s' = u vⁱ x yⁱ z</h3>
+            </div>
+            <div class="pump-buttons-row">
+              <span style="font-size:0.82rem; color:var(--text-dim); margin-right:0.4rem; font-weight:700;">Select i:</span>
+              <button class="pump-i-btn" id="btn-i-0" onclick="applyPumpingFactor(0)">i=0</button>
+              <button class="pump-i-btn active" id="btn-i-1" onclick="applyPumpingFactor(1)">i=1</button>
+              <button class="pump-i-btn" id="btn-i-2" onclick="applyPumpingFactor(2)">i=2</button>
+              <button class="pump-i-btn" id="btn-i-3" onclick="applyPumpingFactor(3)">i=3</button>
+            </div>
+          </div>
+
+          <div class="tape-label">
+            <span>Resulting String after Pumping:</span>
+            <span id="pumped-str-len" style="font-family:var(--font-mono); color:var(--pastel-sky);">Length: 12</span>
+          </div>
+          <div class="string-tape" id="pumped-string-tape">
+            <!-- Dynamically populated -->
+          </div>
+
+          <!-- Diagnosis Card -->
+          <div class="diagnosis-card rejected" id="diagnosis-box">
+            <div class="diagnosis-icon" id="diag-icon">✕</div>
+            <div class="diagnosis-body" style="flex:1;">
+              <h4 id="diag-title">CONTRADICTION FOUND: Resulting String s' ∉ L</h4>
+              <p id="diag-explanation">
+                Loading diagnosis...
+              </p>
+              <div class="counts-summary" id="counts-summary-box">
+                <!-- Count chips -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formal Proof Breakdown (Collapsible) -->
+      <div class="collapsible-theory">
+        <button class="collapsible-trigger" onclick="toggleTheoryAccordion('proof-accordion')">
+          <span>Formal Mathematical Proof: L = {aⁿbⁿcⁿdⁿ | n ≥ 1} is Not Context-Free</span>
+          <span id="accordion-arrow">▼</span>
+        </button>
+        <div class="collapsible-content open" id="proof-accordion">
+          <div class="proof-steps">
+            <div class="proof-step">
+              <div class="step-number">1</div>
+              <div>
+                <strong>Assumption for Contradiction:</strong> Assume <em>L</em> is a context-free language (CFL).
+              </div>
+            </div>
+            <div class="proof-step">
+              <div class="step-number">2</div>
+              <div>
+                <strong>Pumping Length:</strong> By the Pumping Lemma for CFLs, there exists an integer <em>p ≥ 1</em> such that any string <em>s ∈ L</em> with <em>|s| ≥ p</em> can be written as <em>s = uvxyz</em> satisfying:
+                <br>• <code>|vxy| ≤ p</code>
+                <br>• <code>|vy| &gt; 0</code>
+                <br>• <code>uvⁱxyⁱz ∈ L</code> for all <code>i ≥ 0</code>.
+              </div>
+            </div>
+            <div class="proof-step">
+              <div class="step-number">3</div>
+              <div>
+                <strong>Choice of String:</strong> Choose <em>s = aᵖ bᵖ cᵖ dᵖ</em>. Clearly <em>s ∈ L</em> and <em>|s| = 4p ≥ p</em>.
+              </div>
+            </div>
+            <div class="proof-step">
+              <div class="step-number">4</div>
+              <div>
+                <strong>Window Constraint:</strong> Because <code>|vxy| ≤ p</code>, the substring <code>vxy</code> can contain symbols from at most two adjacent blocks (e.g. only <code>a</code>'s, or <code>a</code>'s and <code>b</code>'s, etc.). It cannot span three or four distinct symbol types because each block has length <em>p</em>.
+              </div>
+            </div>
+            <div class="proof-step">
+              <div class="step-number">5</div>
+              <div>
+                <strong>Pumping Down (i = 0):</strong> Examine <code>s' = uv⁰xy⁰z = uxz</code>:
+                <br>• Because <code>|vy| &gt; 0</code>, at least one symbol is removed.
+                <br>• Pumping down reduces the count of at most two symbol types.
+                <br>• The remaining symbol types remain unperturbed with count exactly <em>p</em>.
+              </div>
+            </div>
+            <div class="proof-step">
+              <div class="step-number">6</div>
+              <div>
+                <strong>The Contradiction:</strong> In <em>s'</em>, the four symbol counts cannot remain equal. Thus, <code>uv⁰xy⁰z ∉ L</code>.
+              </div>
+            </div>
+            <div class="proof-step">
+              <div class="step-number">7</div>
+              <div>
+                <strong>Universality:</strong> This contradiction holds for <strong>every</strong> valid partition <em>s = uvxyz</em> satisfying <em>|vxy| ≤ p</em> and <em>|vy| &gt; 0</em>.
+              </div>
+            </div>
+            <div class="proof-step">
+              <div class="step-number">8</div>
+              <div>
+                <strong>Conclusion:</strong> The original assumption is false. Hence, <strong>L is not context-free</strong>. ∎
+              </div>
+            </div>
+          </div>
+
+          <!-- All Decompositions Exhaustive Matrix -->
+          <div style="margin-top: 2rem;">
+            <h4 style="color:var(--pastel-sky); margin-bottom:0.5rem;">Exhaustive Partition Matrix (p = <span id="matrix-p-display">3</span>):</h4>
+            <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:1rem;">
+              Algorithmically testing all partition classes for string <em>s</em> proves that 100% of decompositions fail at <em>i=0</em>:
+            </p>
+            <div class="solver-table-wrap">
+              <table class="solver-table" id="matrix-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Decomposition Case</th>
+                    <th>v</th>
+                    <th>x</th>
+                    <th>y</th>
+                    <th>|vxy|</th>
+                    <th>Pumped (i=0)</th>
+                    <th>Counts (a, b, c, d)</th>
+                    <th>Status in L</th>
+                  </tr>
+                </thead>
+                <tbody id="matrix-table-body">
+                  <!-- Generated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: PUSHDOWN AUTOMATON (PDA) -->
+    <section id="view-pda" class="view-section">
+      <div class="section-header">
+        <div class="badge badge-sky" style="margin-bottom:0.75rem;">Problem 2</div>
+        <h2 class="section-title">Pushdown Automaton (PDA) Simulator</h2>
+        <p class="section-subtitle">
+          Executing transition logic for <span class="math-display">L = { 0ⁿ 1ⁿ | n ≥ 1 }</span> on input <code style="color:var(--pastel-sky);">000111</code>.
+        </p>
+      </div>
+
+      <div class="pda-grid">
+        <!-- State Diagram -->
+        <div class="diagram-card" style="border-top: 3px solid var(--pastel-sky);">
+          <div class="diagram-header">
+            <div>
+              <span class="badge badge-sky">State Transition Graph</span>
+              <span style="font-size:0.82rem; color:var(--text-dim); margin-left:0.5rem;">
+                Format: <code>input, stack-top → replacement</code>
+              </span>
+            </div>
+            <span class="badge badge-lavender" id="diagram-curr-state-badge">Active: q₀</span>
+          </div>
+
+          <div class="diagram-svg-wrap">
+            <svg id="pda-svg" viewBox="0 0 540 280">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--edge-stroke)"/>
+                </marker>
+                <marker id="arrow-active" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                  <path d="M 0 1 L 9 5 L 0 9 z" fill="var(--pastel-sky)"/>
+                </marker>
+              </defs>
+
+              <!-- Start Arrow -->
+              <line x1="20" y1="140" x2="68" y2="140" stroke="var(--pastel-sky)" stroke-width="2.2" marker-end="url(#arrow-active)"/>
+              <text x="35" y="130" fill="var(--pastel-sky)" font-family="monospace" font-size="11" font-weight="bold">Start</text>
+
+              <!-- Transition q0 -> q0 (Self Loop) -->
+              <path id="edge-q0-loop" class="pda-edge" d="M 90 106 C 60 30, 140 30, 110 106" marker-end="url(#arrow)"/>
+              <text id="lbl-q0-loop" class="pda-edge-label" x="100" y="24">0, Z₀ → XZ₀ | 0, X → XX</text>
+
+              <!-- Transition q0 -> q1 -->
+              <path id="edge-q0-q1" class="pda-edge" d="M 134 140 L 236 140" marker-end="url(#arrow)"/>
+              <text id="lbl-q0-q1" class="pda-edge-label" x="185" y="130">1, X → ε</text>
+
+              <!-- Transition q1 -> q1 (Self Loop) -->
+              <path id="edge-q1-loop" class="pda-edge" d="M 260 106 C 230 30, 310 30, 280 106" marker-end="url(#arrow)"/>
+              <text id="lbl-q1-loop" class="pda-edge-label" x="270" y="24">1, X → ε</text>
+
+              <!-- Transition q1 -> qf -->
+              <path id="edge-q1-qf" class="pda-edge" d="M 304 140 L 406 140" marker-end="url(#arrow)"/>
+              <text id="lbl-q1-qf" class="pda-edge-label" x="355" y="130">ε, Z₀ → Z₀</text>
+
+              <!-- State q0 -->
+              <g id="node-q0" class="pda-node active">
+                <circle cx="100" cy="140" r="34"/>
+                <text x="100" y="140">q₀</text>
+              </g>
+
+              <!-- State q1 -->
+              <g id="node-q1" class="pda-node">
+                <circle cx="270" cy="140" r="34"/>
+                <text x="270" y="140">q₁</text>
+              </g>
+
+              <!-- State qf -->
+              <g id="node-qf" class="pda-node accept">
+                <circle class="outer-ring" cx="440" cy="140" r="36"/>
+                <circle cx="440" cy="140" r="28"/>
+                <text x="440" y="140">q_f</text>
+              </g>
+
+              <text x="100" y="195" fill="var(--text-dim)" font-family="sans-serif" font-size="11" text-anchor="middle">Read 0 &amp; Push X</text>
+              <text x="270" y="195" fill="var(--text-dim)" font-family="sans-serif" font-size="11" text-anchor="middle">Read 1 &amp; Pop X</text>
+              <text x="440" y="195" fill="var(--pastel-mint)" font-family="sans-serif" font-size="11" text-anchor="middle">Accepting State</text>
+            </svg>
+          </div>
+          <div style="padding: 0.75rem 1.25rem; background: var(--bg-surface); border-top: 1px solid var(--border-subtle); font-size: 0.8rem; color: var(--text-dim);">
+            Stack Notation: <em>Bottom marker written first</em>, e.g. <code>Z₀X</code> (Z₀ on bottom, X on top).
+          </div>
+        </div>
+
+        <!-- Stack Column -->
+        <div class="stack-card" style="border-top: 3px solid var(--pastel-peach);">
+          <div class="stack-header">
+            <div>
+              <span class="badge badge-peach">Pushdown Store</span>
+              <h4 style="font-size: 1rem; margin-top: 0.25rem; color:var(--text-main);">LIFO Stack Memory</h4>
+            </div>
+            <span class="badge badge-sky" id="stack-size-badge">Height: 1</span>
+          </div>
+
+          <div class="stack-body">
+            <div class="stack-column" id="visual-stack-column">
+              <div class="stack-block block-z0">Z₀</div>
+            </div>
+
+            <div class="stack-meta">
+              <div class="stack-meta-box">
+                <div class="stack-meta-title">Current Stack Top</div>
+                <div class="stack-meta-val" id="stack-top-val">Z₀</div>
+              </div>
+
+              <div class="stack-meta-box">
+                <div class="stack-meta-title">Stack Array (Bottom → Top)</div>
+                <div class="stack-meta-val" id="stack-array-val">[ Z₀ ]</div>
+              </div>
+
+              <div class="stack-meta-box">
+                <div class="stack-meta-title">Last Operation</div>
+                <div class="stack-meta-val" id="stack-last-op" style="color:var(--text-muted); font-size:0.84rem;">
+                  Initialized with bottom marker Z₀
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Box -->
+        <div class="pda-controls-box">
+          <div class="input-row-wrap">
+            <div class="input-field-group">
+              <label style="font-size:0.78rem; color:var(--text-dim); text-transform:uppercase; font-weight:700; margin-bottom:0.35rem; display:block;">
+                Input String (Σ = {0, 1}):
+              </label>
+              <input type="text" id="pda-input-field" class="custom-input" value="000111" spellcheck="false" autocomplete="off" oninput="onPdaInputManualChange()">
+            </div>
+
+            <div class="sim-action-btns">
+              <button class="btn btn-outline" id="btn-pda-step" onclick="pdaStep()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                Step
+              </button>
+              <button class="btn btn-primary" id="btn-pda-play" onclick="pdaTogglePlay()">
+                <svg id="play-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span id="play-text">Play</span>
+              </button>
+              <button class="btn btn-outline" onclick="pdaReset()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                Reset
+              </button>
+            </div>
+
+            <div class="control-group" style="margin-left:auto;">
+              <span class="control-label" style="font-size:0.78rem;">Speed:</span>
+              <div class="slider-container">
+                <input type="range" id="pda-speed-slider" min="300" max="1800" value="800" step="100" style="direction:rtl;">
+                <span style="font-size:0.8rem; font-family:var(--font-mono); color:var(--pastel-sky);" id="speed-label">Normal</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Presets -->
+          <div class="test-cases-rack">
+            <span style="font-size:0.78rem; color:var(--text-dim); text-transform:uppercase; font-weight:700;">Test Suite:</span>
+            <button class="test-case-btn active" onclick="loadPdaPreset('000111')">000111 (Default: Accept)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('01')">01 (Accept)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('0011')">0011 (Accept)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('001')">001 (Reject: unmatched 0)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('011')">011 (Reject: unmatched 1)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('001011')">001011 (Reject: 0 after 1)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('0001111')">0001111 (Reject: 1s &gt; 0s)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('00011')">00011 (Reject: 0s &gt; 1s)</button>
+            <button class="test-case-btn" onclick="loadPdaPreset('')">ε Empty (Reject: n ≥ 1)</button>
+          </div>
+
+          <!-- Tape -->
+          <div class="tape-label">
+            <span>Read Head Position</span>
+            <span id="pda-progress-text" style="color:var(--pastel-sky); font-family:var(--font-mono);">Read: 0 / 6 symbols</span>
+          </div>
+          <div class="pda-tape-container" id="pda-tape-container">
+            <!-- Tiles -->
+          </div>
+
+          <!-- Status Banner -->
+          <div class="pda-status-box neutral" id="pda-status-banner">
+            <div style="display:flex; align-items:center; gap:0.75rem;">
+              <span id="pda-status-indicator" style="font-size:1.2rem;">⚙️</span>
+              <div>
+                <strong id="pda-status-title" style="font-size:0.95rem; color:var(--text-main);">Ready to Simulate</strong>
+                <p id="pda-status-msg" style="font-size:0.84rem; margin-top:2px;">Click 'Step' or 'Play' to begin execution on input 000111.</p>
+              </div>
+            </div>
+            <span class="badge badge-sky" id="pda-state-badge">State: q₀</span>
+          </div>
+        </div>
+
+        <!-- Trace Table -->
+        <div class="trace-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span class="badge badge-lavender">Instantaneous Descriptions</span>
+              <h3 style="font-size: 1.15rem; margin-top: 0.35rem; color:var(--text-main);">Step-by-Step Transition Log</h3>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="exportTraceLog()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Copy Log
+            </button>
+          </div>
+
+          <div class="trace-table-wrap">
+            <table class="trace-table" id="pda-trace-table">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Step #</th>
+                  <th style="width: 140px;">Consumed Input</th>
+                  <th style="width: 140px;">Unread Input</th>
+                  <th style="width: 180px;">Stack (bottom to top)</th>
+                  <th>Action / Transition Applied</th>
+                </tr>
+              </thead>
+              <tbody id="pda-trace-body">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Formal Definition -->
+        <div class="collapsible-theory" style="grid-column: 1 / -1; margin-top:0;">
+          <button class="collapsible-trigger" onclick="toggleTheoryAccordion('pda-def-accordion')">
+            <span>Formal Definition: Pushdown Automaton M = (Q, Σ, Γ, δ, q₀, Z₀, F)</span>
+            <span>▼</span>
+          </button>
+          <div class="collapsible-content open" id="pda-def-accordion">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+              <div>
+                <h4 style="color:var(--pastel-sky); margin-bottom:0.75rem; font-size:0.95rem;">7-Tuple Components:</h4>
+                <ul style="list-style:none; display:flex; flex-direction:column; gap:0.45rem; font-size:0.88rem;">
+                  <li><strong>Q (States):</strong> <code>{ q₀, q₁, q_f }</code></li>
+                  <li><strong>Σ (Input Alphabet):</strong> <code>{ 0, 1 }</code></li>
+                  <li><strong>Γ (Stack Alphabet):</strong> <code>{ Z₀, X }</code></li>
+                  <li><strong>q₀ (Start State):</strong> <code>q₀</code></li>
+                  <li><strong>Z₀ (Initial Stack Symbol):</strong> <code>Z₀</code></li>
+                  <li><strong>F (Accepting States):</strong> <code>{ q_f }</code> (acceptance by final state)</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color:var(--pastel-sky); margin-bottom:0.75rem; font-size:0.95rem;">Transition Function δ:</h4>
+                <table class="solver-table" style="font-size:0.82rem;">
+                  <thead>
+                    <tr>
+                      <th>Current State</th>
+                      <th>Input</th>
+                      <th>Stack Top</th>
+                      <th>Next State, Replacement</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>q₀</td><td>0</td><td>Z₀</td><td>(q₀, XZ₀) &nbsp;[Push X]</td></tr>
+                    <tr><td>q₀</td><td>0</td><td>X</td><td>(q₀, XX) &nbsp;[Push X]</td></tr>
+                    <tr><td>q₀</td><td>1</td><td>X</td><td>(q₁, ε) &nbsp;[Pop X]</td></tr>
+                    <tr><td>q₁</td><td>1</td><td>X</td><td>(q₁, ε) &nbsp;[Pop X]</td></tr>
+                    <tr><td>q₁</td><td>ε</td><td>Z₀</td><td>(q_f, Z₀) &nbsp;[Accept]</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: THEORY & CONCEPTS (BALANCED 3-BOX TOP ROW) -->
+    <section id="view-theory" class="view-section">
+      <div class="section-header">
+        <div class="badge badge-lavender" style="margin-bottom:0.75rem;">Theoretical Framework</div>
+        <h2 class="section-title">Automata Theory &amp; Grammar Hierarchy</h2>
+        <p class="section-subtitle">
+          Core mathematical concepts, Chomsky language classifications, and computational memory models.
+        </p>
+      </div>
+
+      <div class="theory-grid">
+        <!-- Top Card 1: Chomsky Hierarchy -->
+        <div class="theory-card" style="border-top: 3px solid var(--pastel-lavender);">
+          <h3 style="color:var(--pastel-lavender);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 22 22 22"/></svg>
+            The Chomsky Hierarchy
+          </h3>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:0.75rem;">
+            Formal language classes classified by grammar production rules and automata memory:
+          </p>
+          <div class="chomsky-hierarchy-box">
+            <div class="chomsky-level chomsky-0">
+              <strong style="color:var(--pastel-coral);">Type 0: Recursively Enumerable</strong>
+              <div style="color:var(--text-muted); font-size:0.78rem;">Automaton: Turing Machine (Infinite Tape)</div>
+            </div>
+            <div class="chomsky-level chomsky-1">
+              <strong style="color:var(--pastel-lavender);">Type 1: Context-Sensitive (CSL)</strong>
+              <div style="color:var(--text-muted); font-size:0.78rem;">
+                Automaton: LBA &bull; <em>L = {aⁿbⁿcⁿdⁿ | n ≥ 1}</em>
+              </div>
+            </div>
+            <div class="chomsky-level chomsky-2">
+              <strong style="color:var(--pastel-sky);">Type 2: Context-Free (CFL)</strong>
+              <div style="color:var(--text-muted); font-size:0.78rem;">
+                Automaton: PDA &bull; <em>L = {0ⁿ1ⁿ | n ≥ 1}</em>
+              </div>
+            </div>
+            <div class="chomsky-level chomsky-3">
+              <strong style="color:var(--pastel-mint);">Type 3: Regular Languages</strong>
+              <div style="color:var(--text-muted); font-size:0.78rem;">Automaton: DFA / NFA (Zero Auxiliary Memory)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Top Card 2: Memory Limitations of Pushdown Automata -->
+        <div class="theory-card" style="border-top: 3px solid var(--pastel-coral);">
+          <h3 style="color:var(--pastel-coral);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            PDA Memory Limitations
+          </h3>
+          <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.65;">
+            A standard Pushdown Automaton operates with exactly <strong>one LIFO stack</strong>:
+          </p>
+          <ul style="margin: 0.75rem 0 0 1.15rem; font-size:0.85rem; color:var(--text-muted); line-height:1.65;">
+            <li><strong>Single Counter Bound:</strong> It preserves count <em>n</em> by pushing <em>X</em> markers while reading <em>aⁿ</em>.</li>
+            <li><strong>Destructive Readout:</strong> While matching <em>bⁿ</em>, the stack pops markers to verify <em>count(a) = count(b)</em>.</li>
+            <li><strong>Memory Exhaustion:</strong> Once the stack empties to verify <em>bⁿ</em>, the count <em>n</em> is permanently lost.</li>
+            <li><strong>Multi-Block Failure:</strong> The PDA cannot verify whether <em>cⁿ</em> and <em>dⁿ</em> also equal <em>n</em>, proving <em>{aⁿbⁿcⁿdⁿ}</em> requires an LBA or a 2-Stack PDA.</li>
+          </ul>
+        </div>
+
+        <!-- Top Card 3 (NEW): Context-Free Grammars & Parse Trees -->
+        <div class="theory-card" style="border-top: 3px solid var(--pastel-teal);">
+          <h3 style="color:var(--pastel-teal);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            CFGs &amp; Parse Tree Pumping
+          </h3>
+          <p style="font-size:0.88rem; color:var(--text-muted); line-height:1.65;">
+            Context-Free Languages are generated by 4-tuple grammars <strong>G = (V, Σ, R, S)</strong>:
+          </p>
+          <ul style="margin: 0.75rem 0 0 1.15rem; font-size:0.85rem; color:var(--text-muted); line-height:1.65;">
+            <li><strong>Context-Free Rules:</strong> Every rule has the form <em>A → α</em>, where <em>A ∈ V</em>. Replacements are independent of neighboring symbols.</li>
+            <li><strong>Parse Tree Height:</strong> In Chomsky Normal Form (CNF), a string of length <em>≥ 2ᵐ</em> requires a derivation tree of height at least <em>m + 1</em>.</li>
+            <li><strong>Pigeonhole Principle:</strong> When height exceeds <em>|V|</em>, at least one variable <em>A</em> must repeat along a single path.</li>
+            <li><strong>Pumping Foundation:</strong> The nested occurrences of <em>A</em> partition the terminal yield into <em>s = uvxyz</em>, directly justifying the CFL Pumping Lemma.</li>
+          </ul>
+        </div>
+
+        <!-- Bottom Card: Formal Foundations & Equivalence (Spans All Columns) -->
+        <div class="theory-card" style="grid-column: 1 / -1; border-top: 3px solid var(--pastel-sky);">
+          <h3 style="color:var(--pastel-sky);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Formal Equivalence &amp; The Pumping Lemma Principle
+          </h3>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.25rem; margin-top:0.65rem; font-size:0.88rem;">
+            <div style="background:var(--bg-surface); padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+              <strong style="color:var(--pastel-sky); display:block; margin-bottom:0.35rem;">Necessary vs. Sufficient Condition</strong>
+              <p style="color:var(--text-muted); line-height:1.6;">
+                The Pumping Lemma is a <em>necessary</em> property of context-free languages, not a sufficient one. If a language is context-free, it must satisfy the lemma. Consequently, the contrapositive is used as an unambiguous proof technique: failure to satisfy the lemma establishes non-context-freeness.
+              </p>
+            </div>
+            <div style="background:var(--bg-surface); padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+              <strong style="color:var(--pastel-teal); display:block; margin-bottom:0.35rem;">CFG &amp; PDA Equivalence</strong>
+              <p style="color:var(--text-muted); line-height:1.6;">
+                By the Chomsky-Schützenberger theorem, any language generated by a Context-Free Grammar (CFG) can be accepted by a Pushdown Automaton (PDA) and vice versa. The parse tree height bound in CFGs directly translates to the pumping length <em>p</em>.
+              </p>
+            </div>
+            <div style="background:var(--bg-surface); padding:1rem; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+              <strong style="color:var(--pastel-indigo); display:block; margin-bottom:0.35rem;">Deterministic Context-Free (DCFL)</strong>
+              <p style="color:var(--text-muted); line-height:1.6;">
+                The language <em>L = {0ⁿ1ⁿ | n ≥ 1}</em> is recognized by a Deterministic Pushdown Automaton (DPDA). In each configuration, at most one valid move exists, enabling linear time parsing without backtracking.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       CONCISE COMPACT FOOTER
+       ========================================================================== -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-heading">
+        INTERACTIVE SIMULATOR FOR FORMAL LANGUAGE AND AUTOMATA
+      </div>
+
+      <div class="authors-compact-bar">
+        <div class="author-tag">
+          <span class="author-name">Anushka Priyani Nayak</span>
+          <span class="author-id">[RA2411026010132]</span>
+        </div>
+        <div class="author-tag">
+          <span class="author-name">Mridul Mathur</span>
+          <span class="author-id">[RA2411026010137]</span>
+        </div>
+        <div class="author-tag">
+          <span class="author-name">Rajrupa Das</span>
+          <span class="author-id">[RA2411026010147]</span>
+        </div>
+      </div>
+
+      <ul class="footer-links">
+        <li><a href="javascript:void(0)" onclick="switchTab('home')">Home</a></li>
+        <li><a href="javascript:void(0)" onclick="switchTab('pumping')">Pumping Lemma</a></li>
+        <li><a href="javascript:void(0)" onclick="switchTab('pda')">PDA Simulator</a></li>
+        <li><a href="javascript:void(0)" onclick="switchTab('theory')">Theory &amp; Concepts</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       VANILLA JAVASCRIPT SIMULATION LOGIC
+       ========================================================================== -->
+  <script>
+    /* --------------------------------------------------------------------------
+       GLOBAL ROUTING & THEME
+       -------------------------------------------------------------------------- */
+    function switchTab(tabId) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      
+      const targetSec = document.getElementById('view-' + tabId);
+      const targetBtn = document.getElementById('tab-btn-' + tabId);
+      if (targetSec) targetSec.classList.add('active');
+      if (targetBtn) targetBtn.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('automata_lab_theme', next);
+    }
+
+    function toggleTheoryAccordion(accordionId) {
+      const el = document.getElementById(accordionId);
+      if (el) el.classList.toggle('open');
+    }
+
+    /* --------------------------------------------------------------------------
+       SIMULATOR 1: PUMPING LEMMA ENGINE
+       -------------------------------------------------------------------------- */
+    const PUMP_STATE = {
+      p: 3,
+      s: '',
+      u: '', v: '', x: '', y: '', z: '',
+      vStart: 2, vLen: 1, xLen: 0, yLen: 1,
+      currentI: 1,
+      cases: []
+    };
+
+    function initPumpingEngine() {
+      generatePumpingString();
+      generateDecompositionPresets();
+      selectDecompositionPreset(0);
+      renderAllCasesMatrix();
+    }
+
+    function onPChange(newP) {
+      PUMP_STATE.p = parseInt(newP, 10);
+      document.getElementById('p-val-display').innerText = PUMP_STATE.p;
+      document.getElementById('matrix-p-display').innerText = PUMP_STATE.p;
+      generatePumpingString();
+      generateDecompositionPresets();
+      selectDecompositionPreset(0);
+      renderAllCasesMatrix();
+    }
+
+    function generatePumpingString() {
+      const p = PUMP_STATE.p;
+      const str = 'a'.repeat(p) + 'b'.repeat(p) + 'c'.repeat(p) + 'd'.repeat(p);
+      PUMP_STATE.s = str;
+      document.getElementById('orig-str-display').innerText = `${str} (|s| = ${str.length})`;
+      
+      const vStartSlider = document.getElementById('v-start-slider');
+      vStartSlider.max = str.length - 1;
+    }
+
+    function generateDecompositionPresets() {
+      const p = PUMP_STATE.p;
+      PUMP_STATE.cases = [
+        {
+          name: "Case 1: vxy entirely in a's",
+          desc: "v and y contain only 'a's",
+          vStart: 0, vLen: 1, xLen: 0, yLen: 1
+        },
+        {
+          name: "Case 2: vxy crosses a-b boundary",
+          desc: "v contains 'a', y contains 'b'",
+          vStart: Math.max(0, p - 1), vLen: 1, xLen: 0, yLen: 1
+        },
+        {
+          name: "Case 3: vxy entirely in b's",
+          desc: "v and y contain only 'b's",
+          vStart: p, vLen: 1, xLen: 0, yLen: 1
+        },
+        {
+          name: "Case 4: vxy crosses b-c boundary",
+          desc: "v in b's, y in c's",
+          vStart: Math.max(0, 2 * p - 1), vLen: 1, xLen: 0, yLen: 1
+        },
+        {
+          name: "Case 5: vxy crosses c-d boundary",
+          desc: "v in c's, y in d's",
+          vStart: Math.max(0, 3 * p - 1), vLen: 1, xLen: 0, yLen: 1
+        }
+      ];
+
+      const row = document.getElementById('case-presets-row');
+      row.innerHTML = '';
+      PUMP_STATE.cases.forEach((c, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `decomp-preset-btn ${idx === 0 ? 'active' : ''}`;
+        btn.id = `preset-btn-${idx}`;
+        btn.innerText = c.name;
+        btn.title = c.desc;
+        btn.onclick = () => selectDecompositionPreset(idx);
+        row.appendChild(btn);
+      });
+    }
+
+    function selectDecompositionPreset(index) {
+      document.querySelectorAll('.decomp-preset-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`preset-btn-${index}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const c = PUMP_STATE.cases[index];
+      if (!c) return;
+
+      PUMP_STATE.vStart = c.vStart;
+      PUMP_STATE.vLen = c.vLen;
+      PUMP_STATE.xLen = c.xLen;
+      PUMP_STATE.yLen = c.yLen;
+
+      document.getElementById('v-start-slider').value = c.vStart;
+      document.getElementById('v-len-slider').value = c.vLen;
+      document.getElementById('x-len-slider').value = c.xLen;
+      document.getElementById('y-len-slider').value = c.yLen;
+
+      updateDecompositionAndRender();
+    }
+
+    function onCustomDecompChange() {
+      document.querySelectorAll('.decomp-preset-btn').forEach(b => b.classList.remove('active'));
+      PUMP_STATE.vStart = parseInt(document.getElementById('v-start-slider').value, 10);
+      PUMP_STATE.vLen = parseInt(document.getElementById('v-len-slider').value, 10);
+      PUMP_STATE.xLen = parseInt(document.getElementById('x-len-slider').value, 10);
+      PUMP_STATE.yLen = parseInt(document.getElementById('y-len-slider').value, 10);
+
+      updateDecompositionAndRender();
+    }
+
+    function updateDecompositionAndRender() {
+      const s = PUMP_STATE.s;
+      const vStart = PUMP_STATE.vStart;
+      const vLen = PUMP_STATE.vLen;
+      const xStart = vStart + vLen;
+      const xLen = PUMP_STATE.xLen;
+      const yStart = xStart + xLen;
+      const yLen = PUMP_STATE.yLen;
+      const zStart = yStart + yLen;
+
+      PUMP_STATE.u = s.slice(0, vStart);
+      PUMP_STATE.v = s.slice(vStart, vStart + vLen);
+      PUMP_STATE.x = s.slice(xStart, xStart + xLen);
+      PUMP_STATE.y = s.slice(yStart, yStart + yLen);
+      PUMP_STATE.z = s.slice(zStart);
+
+      const vxyLen = vLen + xLen + yLen;
+      const vyLen = vLen + yLen;
+
+      const condVxy = vxyLen <= PUMP_STATE.p && vxyLen > 0;
+      const condVy = vyLen > 0;
+
+      const condVxyEl = document.getElementById('cond-vxy');
+      const condVyEl = document.getElementById('cond-vy');
+      const windowStatus = document.getElementById('window-status');
+
+      condVxyEl.innerText = `|vxy| = ${vxyLen} ≤ ${PUMP_STATE.p}: ${condVxy ? 'YES' : 'VIOLATION'}`;
+      condVxyEl.className = `condition-pill ${condVxy ? 'valid' : 'invalid'}`;
+
+      condVyEl.innerText = `|vy| = ${vyLen} > 0: ${condVy ? 'YES' : 'VIOLATION'}`;
+      condVyEl.className = `condition-pill ${condVy ? 'valid' : 'invalid'}`;
+
+      if (condVxy && condVy) {
+        windowStatus.style.color = 'var(--pastel-mint)';
+        windowStatus.innerText = `Valid partition: |vxy| = ${vxyLen} ≤ p, |vy| = ${vyLen} > 0`;
+      } else {
+        windowStatus.style.color = 'var(--pastel-coral)';
+        windowStatus.innerText = `Invalid partition: Must satisfy |vxy| ≤ p and |vy| > 0`;
+      }
+
+      renderOriginalTape();
+      applyPumpingFactor(PUMP_STATE.currentI);
+    }
+
+    function renderOriginalTape() {
+      const tape = document.getElementById('pumping-tape');
+      tape.innerHTML = '';
+      const s = PUMP_STATE.s;
+
+      const vStart = PUMP_STATE.vStart;
+      const vEnd = vStart + PUMP_STATE.vLen;
+      const xEnd = vEnd + PUMP_STATE.xLen;
+      const yEnd = xEnd + PUMP_STATE.yLen;
+
+      for (let i = 0; i < s.length; i++) {
+        const char = s[i];
+        const tile = document.createElement('div');
+        tile.className = `char-tile char-${char}`;
+
+        let segClass = 'seg-u';
+        let segLabel = 'u';
+
+        if (i >= vStart && i < vEnd) {
+          segClass = 'seg-v';
+          segLabel = 'v';
+        } else if (i >= vEnd && i < xEnd) {
+          segClass = 'seg-x';
+          segLabel = 'x';
+        } else if (i >= xEnd && i < yEnd) {
+          segClass = 'seg-y';
+          segLabel = 'y';
+        } else if (i >= yEnd) {
+          segClass = 'seg-z';
+          segLabel = 'z';
+        }
+
+        tile.classList.add(segClass);
+        tile.innerHTML = `
+          <span>${char}</span>
+          <span class="tile-sub">${segLabel}</span>
+        `;
+
+        if (i === vStart && PUMP_STATE.vLen > 0) {
+          const tag = document.createElement('span');
+          tag.className = 'tile-tag tile-tag-v';
+          tag.innerText = 'v';
+          tile.appendChild(tag);
+        } else if (i === xEnd && PUMP_STATE.yLen > 0) {
+          const tag = document.createElement('span');
+          tag.className = 'tile-tag tile-tag-y';
+          tag.innerText = 'y';
+          tile.appendChild(tag);
+        }
+
+        tape.appendChild(tile);
+      }
+    }
+
+    function applyPumpingFactor(i) {
+      PUMP_STATE.currentI = i;
+      document.querySelectorAll('.pump-i-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`btn-i-${i}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const u = PUMP_STATE.u;
+      const v = PUMP_STATE.v;
+      const x = PUMP_STATE.x;
+      const y = PUMP_STATE.y;
+      const z = PUMP_STATE.z;
+
+      const pumpedStr = u + v.repeat(i) + x + y.repeat(i) + z;
+      renderPumpedTape(pumpedStr, i);
+      evaluateLanguageMembership(pumpedStr, i);
+    }
+
+    function renderPumpedTape(str, i) {
+      const tape = document.getElementById('pumped-string-tape');
+      tape.innerHTML = '';
+      document.getElementById('pumped-str-len').innerText = `Length: ${str.length}`;
+
+      if (str.length === 0) {
+        tape.innerHTML = `<span style="color:var(--text-dim); font-family:var(--font-mono); font-size:0.88rem;">Empty string (ε)</span>`;
+        return;
+      }
+
+      for (let idx = 0; idx < str.length; idx++) {
+        const char = str[idx];
+        const tile = document.createElement('div');
+        tile.className = `char-tile char-${char}`;
+        tile.innerHTML = `
+          <span>${char}</span>
+          <span class="tile-sub">[${idx}]</span>
+        `;
+        tape.appendChild(tile);
+      }
+    }
+
+    function evaluateLanguageMembership(str, i) {
+      const counts = { a: 0, b: 0, c: 0, d: 0, other: 0 };
+      for (const ch of str) {
+        if (counts[ch] !== undefined) counts[ch]++;
+        else counts.other++;
+      }
+
+      const pattern = /^a+b+c+d+$/;
+      const orderOk = pattern.test(str);
+      const countsEqual = counts.a === counts.b && counts.b === counts.c && counts.c === counts.d && counts.a > 0;
+      const inLanguage = orderOk && countsEqual;
+
+      const diagBox = document.getElementById('diagnosis-box');
+      const diagIcon = document.getElementById('diag-icon');
+      const diagTitle = document.getElementById('diag-title');
+      const diagExpl = document.getElementById('diag-explanation');
+      const countBox = document.getElementById('counts-summary-box');
+
+      countBox.innerHTML = `
+        <span class="count-chip" style="color:var(--sym-a-text)">N(a) = ${counts.a}</span>
+        <span class="count-chip" style="color:var(--sym-b-text)">N(b) = ${counts.b}</span>
+        <span class="count-chip" style="color:var(--sym-c-text)">N(c) = ${counts.c}</span>
+        <span class="count-chip" style="color:var(--sym-d-text)">N(d) = ${counts.d}</span>
+      `;
+
+      if (inLanguage) {
+        diagBox.className = 'diagnosis-card accepted';
+        diagIcon.innerText = '✓';
+        diagTitle.innerText = `ACCEPTED: String s' ∈ L (At i = ${i})`;
+        diagExpl.innerText = `At i = 1, we retain the initial string s = aᵖbᵖcᵖdᵖ. However, the pumping lemma demands that s' MUST remain in L for ALL i ≥ 0. Testing i = 0 or i = 2 yields the contradiction.`;
+      } else {
+        diagBox.className = 'diagnosis-card rejected';
+        diagIcon.innerText = '✕';
+        diagTitle.innerText = `CONTRADICTION FOUND: Resulting String s' ∉ L (At i = ${i})`;
+
+        let reason = '';
+        if (!orderOk) {
+          reason = `Symbol order violated: symbols do not match the required 'a* b* c* d*' sequence.`;
+        } else if (!countsEqual) {
+          reason = `Count inequality: N(a)=${counts.a}, N(b)=${counts.b}, N(c)=${counts.c}, N(d)=${counts.d}. Because |vxy| ≤ p, at most two adjacent symbol types were modified while at least two remained unchanged at p=${PUMP_STATE.p}.`;
+        } else if (counts.a === 0) {
+          reason = `Block size violated: Each group must contain at least 1 symbol (n ≥ 1).`;
+        }
+        diagExpl.innerText = `${reason} This directly contradicts the Pumping Lemma condition uvⁱxyⁱz ∈ L for all i ≥ 0.`;
+      }
+    }
+
+    function resetPumpingExperiment() {
+      PUMP_STATE.p = 3;
+      document.getElementById('p-slider').value = 3;
+      onPChange(3);
+    }
+
+    function runAutomatedProofDemo() {
+      toggleTheoryAccordion('proof-accordion');
+      applyPumpingFactor(0);
+      document.getElementById('matrix-table').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function renderAllCasesMatrix() {
+      const p = PUMP_STATE.p;
+      const s = PUMP_STATE.s;
+      const tbody = document.getElementById('matrix-table-body');
+      tbody.innerHTML = '';
+
+      let testCases = [
+        { desc: "v, y in 'a' block", vStart: 0, vLen: 1, xLen: 0, yLen: 1 },
+        { desc: "v in 'a', y in 'b' (border)", vStart: p - 1, vLen: 1, xLen: 0, yLen: 1 },
+        { desc: "v, y in 'b' block", vStart: p, vLen: 1, xLen: 0, yLen: 1 },
+        { desc: "v in 'b', y in 'c' (border)", vStart: 2 * p - 1, vLen: 1, xLen: 0, yLen: 1 },
+        { desc: "v, y in 'c' block", vStart: 2 * p, vLen: 1, xLen: 0, yLen: 1 },
+        { desc: "v in 'c', y in 'd' (border)", vStart: 3 * p - 1, vLen: 1, xLen: 0, yLen: 1 },
+        { desc: "v, y in 'd' block", vStart: 3 * p, vLen: 1, xLen: 0, yLen: 1 }
+      ];
+
+      testCases.forEach((tc, idx) => {
+        const v = s.slice(tc.vStart, tc.vStart + tc.vLen);
+        const xStart = tc.vStart + tc.vLen;
+        const x = s.slice(xStart, xStart + tc.xLen);
+        const yStart = xStart + tc.xLen;
+        const y = s.slice(yStart, yStart + tc.yLen);
+        const u = s.slice(0, tc.vStart);
+        const z = s.slice(yStart + tc.yLen);
+
+        const vxyLen = v.length + x.length + y.length;
+        const pumped0 = u + x + z;
+
+        const counts = { a: 0, b: 0, c: 0, d: 0 };
+        for (const ch of pumped0) if (counts[ch] !== undefined) counts[ch]++;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td><strong>${tc.desc}</strong></td>
+          <td style="color:var(--pastel-coral); font-weight:bold;">${v}</td>
+          <td>${x || 'ε'}</td>
+          <td style="color:var(--pastel-lavender); font-weight:bold;">${y}</td>
+          <td>${vxyLen} ≤ ${p}</td>
+          <td style="color:var(--pastel-sky);">${pumped0}</td>
+          <td>a:${counts.a}, b:${counts.b}, c:${counts.c}, d:${counts.d}</td>
+          <td><span class="badge badge-coral">∉ L (Contradiction)</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* --------------------------------------------------------------------------
+       SIMULATOR 2: PUSHDOWN AUTOMATON (PDA) ENGINE
+       -------------------------------------------------------------------------- */
+    const PDA = {
+      input: "000111",
+      head: 0,
+      state: "q0",
+      stack: ["Z0"],
+      status: "INITIAL",
+      history: [],
+      timer: null,
+      speedMs: 800
+    };
+
+    function initPdaSimulator() {
+      pdaReset();
+      document.getElementById('pda-speed-slider').addEventListener('input', function() {
+        PDA.speedMs = parseInt(this.value, 10);
+        const lbl = document.getElementById('speed-label');
+        if (PDA.speedMs < 500) lbl.innerText = 'Fast';
+        else if (PDA.speedMs > 1100) lbl.innerText = 'Slow';
+        else lbl.innerText = 'Normal';
+        
+        if (PDA.timer) {
+          clearInterval(PDA.timer);
+          PDA.timer = setInterval(pdaStep, PDA.speedMs);
+        }
+      });
+    }
+
+    function loadPdaPreset(presetInput) {
+      document.querySelectorAll('.test-case-btn').forEach(b => b.classList.remove('active'));
+      if (event && event.target) event.target.classList.add('active');
+      document.getElementById('pda-input-field').value = presetInput;
+      PDA.input = presetInput;
+      pdaReset();
+    }
+
+    function onPdaInputManualChange() {
+      document.querySelectorAll('.test-case-btn').forEach(b => b.classList.remove('active'));
+      PDA.input = document.getElementById('pda-input-field').value.trim();
+      pdaReset();
+    }
+
+    function pdaReset() {
+      if (PDA.timer) {
+        clearInterval(PDA.timer);
+        PDA.timer = null;
+      }
+      document.getElementById('play-icon').innerHTML = `<polygon points="5 3 19 12 5 21 5 3"/>`;
+      document.getElementById('play-text').innerText = 'Play';
+
+      PDA.input = document.getElementById('pda-input-field').value.trim();
+      PDA.head = 0;
+      PDA.state = "q0";
+      PDA.stack = ["Z0"];
+      PDA.status = "INITIAL";
+      PDA.history = [];
+
+      PDA.history.push({
+        step: 0,
+        consumed: "Empty",
+        unread: PDA.input.length > 0 ? PDA.input : "Empty",
+        stackStr: "Z₀",
+        action: "Initialize PDA with bottom marker Z₀ in state q₀",
+        state: "q0"
+      });
+
+      updatePdaUI();
+      highlightActiveState("q0", null);
+      updateStatusBanner("neutral", "Ready to Simulate", `Initialized with input: ${PDA.input || 'ε'}. Click Step or Play.`);
+    }
+
+    function pdaTogglePlay() {
+      if (PDA.status === 'ACCEPTED' || PDA.status === 'REJECTED') {
+        pdaReset();
+      }
+
+      if (PDA.timer) {
+        clearInterval(PDA.timer);
+        PDA.timer = null;
+        document.getElementById('play-icon').innerHTML = `<polygon points="5 3 19 12 5 21 5 3"/>`;
+        document.getElementById('play-text').innerText = 'Play';
+      } else {
+        document.getElementById('play-icon').innerHTML = `<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>`;
+        document.getElementById('play-text').innerText = 'Pause';
+        PDA.timer = setInterval(() => {
+          const keepGoing = pdaStep();
+          if (!keepGoing) {
+            clearInterval(PDA.timer);
+            PDA.timer = null;
+            document.getElementById('play-icon').innerHTML = `<polygon points="5 3 19 12 5 21 5 3"/>`;
+            document.getElementById('play-text').innerText = 'Play';
+          }
+        }, PDA.speedMs);
+      }
+    }
+
+    function pdaStep() {
+      if (PDA.status === 'ACCEPTED' || PDA.status === 'REJECTED') {
+        return false;
+      }
+
+      PDA.status = 'RUNNING';
+      const input = PDA.input;
+      const head = PDA.head;
+      const stack = PDA.stack;
+      const currState = PDA.state;
+
+      const top = stack[stack.length - 1];
+
+      if (input.length === 0) {
+        PDA.state = 'REJECT';
+        PDA.status = 'REJECTED';
+        PDA.history.push({
+          step: PDA.history.length,
+          consumed: "Empty",
+          unread: "Empty",
+          stackStr: formatStack(stack),
+          action: "Reject: Empty string ε ∉ L (Language requires n ≥ 1)",
+          state: "REJECT"
+        });
+        highlightActiveState(null, null);
+        updateStatusBanner("rejected", "REJECTED (Empty String)", "Empty string is not in L = {0ⁿ1ⁿ | n ≥ 1}.");
+        updatePdaUI();
+        return false;
+      }
+
+      if (head >= input.length) {
+        if (currState === 'q1' && top === 'Z0') {
+          PDA.state = 'qf';
+          PDA.status = 'ACCEPTED';
+          PDA.history.push({
+            step: PDA.history.length,
+            consumed: input,
+            unread: "Empty",
+            stackStr: "Z₀",
+            action: "Epsilon transition to q_f; stack has Z₀; ACCEPT!",
+            state: "qf"
+          });
+          highlightActiveState("qf", "edge-q1-qf");
+          updateStatusBanner("accepted", "ACCEPTED", `Input '${input}' successfully recognized by PDA.`);
+          updatePdaUI();
+          return false;
+        } else if (currState === 'q0') {
+          PDA.state = 'REJECT';
+          PDA.status = 'REJECTED';
+          PDA.history.push({
+            step: PDA.history.length,
+            consumed: input,
+            unread: "Empty",
+            stackStr: formatStack(stack),
+            action: "Reject: Input exhausted in q₀ with unread 1's missing",
+            state: "REJECT"
+          });
+          highlightActiveState(null, null);
+          updateStatusBanner("rejected", "REJECTED", "Input ended before any '1' was read. Unmatched '0's remain.");
+          updatePdaUI();
+          return false;
+        } else {
+          PDA.state = 'REJECT';
+          PDA.status = 'REJECTED';
+          PDA.history.push({
+            step: PDA.history.length,
+            consumed: input,
+            unread: "Empty",
+            stackStr: formatStack(stack),
+            action: `Reject: Input exhausted but stack contains unmatched X markers (${stack.length - 1} remain)`,
+            state: "REJECT"
+          });
+          highlightActiveState(null, null);
+          updateStatusBanner("rejected", "REJECTED", `More '0's than '1's. Stack still has ${stack.length - 1} unpopped 'X'.`);
+          updatePdaUI();
+          return false;
+        }
+      }
+
+      const sym = input[head];
+
+      if (sym !== '0' && sym !== '1') {
+        PDA.state = 'REJECT';
+        PDA.status = 'REJECTED';
+        PDA.history.push({
+          step: PDA.history.length,
+          consumed: input.slice(0, head + 1),
+          unread: input.slice(head + 1) || "Empty",
+          stackStr: formatStack(stack),
+          action: `Reject: Invalid alphabet symbol '${sym}'. Only Σ = {0, 1} permitted.`,
+          state: "REJECT"
+        });
+        highlightActiveState(null, null);
+        updateStatusBanner("rejected", "REJECTED (Alphabet Error)", `Symbol '${sym}' is not in alphabet Σ = {0, 1}.`);
+        updatePdaUI();
+        return false;
+      }
+
+      if (currState === 'q0') {
+        if (sym === '0') {
+          stack.push('X');
+          PDA.head++;
+          PDA.history.push({
+            step: PDA.history.length,
+            consumed: input.slice(0, PDA.head),
+            unread: input.slice(PDA.head) || "Empty",
+            stackStr: formatStack(stack),
+            action: "Push X",
+            state: "q0"
+          });
+          highlightActiveState("q0", "edge-q0-loop");
+          updateStatusBanner("neutral", "Processing: Push X", `Read '0', pushed 'X' onto stack. Remaining stack height: ${stack.length}`);
+          updatePdaUI();
+          return true;
+        } else if (sym === '1') {
+          if (top === 'X') {
+            stack.pop();
+            PDA.head++;
+            PDA.state = 'q1';
+            PDA.history.push({
+              step: PDA.history.length,
+              consumed: input.slice(0, PDA.head),
+              unread: input.slice(PDA.head) || "Empty",
+              stackStr: formatStack(stack),
+              action: "Pop X (transition q₀ → q₁)",
+              state: "q1"
+            });
+            highlightActiveState("q1", "edge-q0-q1");
+            updateStatusBanner("neutral", "Phase Change: Pop X", "Read first '1', popped 'X', switched to state q₁.");
+            updatePdaUI();
+            return true;
+          } else {
+            PDA.state = 'REJECT';
+            PDA.status = 'REJECTED';
+            PDA.history.push({
+              step: PDA.history.length,
+              consumed: input.slice(0, head + 1),
+              unread: input.slice(head + 1) || "Empty",
+              stackStr: formatStack(stack),
+              action: "Reject: Read '1' but no matching 'X' to pop (stack has Z₀)",
+              state: "REJECT"
+            });
+            highlightActiveState(null, null);
+            updateStatusBanner("rejected", "REJECTED", "Read '1' with empty stack. More ones than zeros or starts with 1.");
+            updatePdaUI();
+            return false;
+          }
+        }
+      } else if (currState === 'q1') {
+        if (sym === '1') {
+          if (top === 'X') {
+            stack.pop();
+            PDA.head++;
+            PDA.history.push({
+              step: PDA.history.length,
+              consumed: input.slice(0, PDA.head),
+              unread: input.slice(PDA.head) || "Empty",
+              stackStr: formatStack(stack),
+              action: "Pop X",
+              state: "q1"
+            });
+            highlightActiveState("q1", "edge-q1-loop");
+            updateStatusBanner("neutral", "Processing: Pop X", `Read '1', popped matching 'X'. Unmatched X count: ${stack.length - 1}`);
+            updatePdaUI();
+            return true;
+          } else {
+            PDA.state = 'REJECT';
+            PDA.status = 'REJECTED';
+            PDA.history.push({
+              step: PDA.history.length,
+              consumed: input.slice(0, head + 1),
+              unread: input.slice(head + 1) || "Empty",
+              stackStr: formatStack(stack),
+              action: "Reject: More 1's than 0's; stack has no X to pop",
+              state: "REJECT"
+            });
+            highlightActiveState(null, null);
+            updateStatusBanner("rejected", "REJECTED (Excess 1s)", "More 1's than 0's. Stack exhausted before all 1's read.");
+            updatePdaUI();
+            return false;
+          }
+        } else if (sym === '0') {
+          PDA.state = 'REJECT';
+          PDA.status = 'REJECTED';
+          PDA.history.push({
+            step: PDA.history.length,
+            consumed: input.slice(0, head + 1),
+            unread: input.slice(head + 1) || "Empty",
+            stackStr: formatStack(stack),
+            action: "Reject: '0' appears after '1' reading phase began",
+            state: "REJECT"
+          });
+          highlightActiveState(null, null);
+          updateStatusBanner("rejected", "REJECTED (Order Violation)", "Symbol '0' appeared after '1'. Violates strict 0* followed by 1* pattern.");
+          updatePdaUI();
+          return false;
+        }
+      }
+
+      return false;
+    }
+
+    function formatStack(stack) {
+      return stack.map(s => s === 'Z0' ? 'Z₀' : s).join('');
+    }
+
+    function updatePdaUI() {
+      const tape = document.getElementById('pda-tape-container');
+      tape.innerHTML = '';
+      const input = PDA.input;
+
+      if (input.length === 0) {
+        tape.innerHTML = `<span style="color:var(--text-dim); font-family:var(--font-mono);">Empty string (ε)</span>`;
+      } else {
+        for (let i = 0; i < input.length; i++) {
+          const sym = input[i];
+          const tile = document.createElement('div');
+          tile.className = `pda-tile char-${sym}`;
+          if (i < PDA.head) tile.classList.add('consumed');
+          else if (i === PDA.head && PDA.status !== 'ACCEPTED') tile.classList.add('current');
+
+          tile.innerHTML = `
+            <span>${sym}</span>
+            <span class="tile-idx">[${i}]</span>
+          `;
+          tape.appendChild(tile);
+        }
+      }
+
+      document.getElementById('pda-progress-text').innerText = `Read: ${PDA.head} / ${input.length} symbols`;
+      document.getElementById('pda-state-badge').innerText = `State: ${PDA.state === 'qf' ? 'q_f' : PDA.state}`;
+
+      const stackCol = document.getElementById('visual-stack-column');
+      stackCol.innerHTML = '';
+      PDA.stack.forEach(item => {
+        const blk = document.createElement('div');
+        blk.className = `stack-block ${item === 'Z0' ? 'block-z0' : 'block-x'}`;
+        blk.innerText = item === 'Z0' ? 'Z₀' : item;
+        stackCol.appendChild(blk);
+      });
+
+      document.getElementById('stack-size-badge').innerText = `Height: ${PDA.stack.length}`;
+      const topSymbol = PDA.stack[PDA.stack.length - 1] === 'Z0' ? 'Z₀' : (PDA.stack[PDA.stack.length - 1] || 'Empty');
+      document.getElementById('stack-top-val').innerText = topSymbol;
+      document.getElementById('stack-array-val').innerText = `[ ${PDA.stack.map(s => s === 'Z0' ? 'Z₀' : s).join(', ')} ]`;
+
+      const tbody = document.getElementById('pda-trace-body');
+      tbody.innerHTML = '';
+      PDA.history.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        if (idx === PDA.history.length - 1) {
+          tr.className = 'active-row';
+        }
+        tr.innerHTML = `
+          <td>${row.step}</td>
+          <td><code style="color:var(--text-muted);">${row.consumed}</code></td>
+          <td><code style="color:var(--pastel-sky);">${row.unread}</code></td>
+          <td><strong style="color:var(--pastel-lavender);">${row.stackStr}</strong></td>
+          <td>${row.action}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const wrap = document.querySelector('.trace-table-wrap');
+      if (wrap) wrap.scrollTop = wrap.scrollHeight;
+    }
+
+    function highlightActiveState(stateId, edgeId) {
+      document.querySelectorAll('.pda-node').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.pda-edge').forEach(e => e.classList.remove('active'));
+      document.querySelectorAll('.pda-edge-label').forEach(l => l.classList.remove('active'));
+
+      if (stateId && document.getElementById('node-' + stateId)) {
+        document.getElementById('node-' + stateId).classList.add('active');
+        document.getElementById('diagram-curr-state-badge').innerText = `Active: ${stateId === 'qf' ? 'q_f' : stateId}`;
+      }
+
+      if (edgeId && document.getElementById(edgeId)) {
+        document.getElementById(edgeId).classList.add('active');
+        const lblId = edgeId.replace('edge', 'lbl');
+        const lbl = document.getElementById(lblId);
+        if (lbl) lbl.classList.add('active');
+      }
+    }
+
+    function updateStatusBanner(type, title, msg) {
+      const banner = document.getElementById('pda-status-banner');
+      banner.className = `pda-status-box ${type}`;
+      document.getElementById('pda-status-title').innerText = title;
+      document.getElementById('pda-status-msg').innerText = msg;
+
+      const indicator = document.getElementById('pda-status-indicator');
+      if (type === 'accepted') indicator.innerText = '✓';
+      else if (type === 'rejected') indicator.innerText = '✕';
+      else indicator.innerText = '⚙️';
+    }
+
+    function exportTraceLog() {
+      let text = "Step\tConsumed\tUnread\tStack (Bottom to Top)\tAction\n";
+      PDA.history.forEach(h => {
+        text += `${h.step}\t${h.consumed}\t${h.unread}\t${h.stackStr}\t${h.action}\n`;
+      });
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Trace log copied to clipboard!");
+      }).catch(() => {
+        prompt("Copy trace log:", text);
+      });
+    }
+
+    /* --------------------------------------------------------------------------
+       INITIALIZATION
+       -------------------------------------------------------------------------- */
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('automata_lab_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+
+      initPumpingEngine();
+      initPdaSimulator();
+    });
+  </script>
+</body>
+</html>
